@@ -3,10 +3,10 @@
 import urllib.request
 import json
 
-numberarray = ["one", "two", "three", "four"]
+numberarray = ["", "one", "two", "three", "four"]
 
 def parseShortie(q):
-    out = f"==={q["category"]["str"]}===\n"
+    out = f"==={q["category"]["str"]}===\n\n"
     # {{InfoboxShortie
     # |question=What should the show "The Wire"...
     # |answer1=The Red Wire
@@ -15,15 +15,16 @@ def parseShortie(q):
     # |answer4=Hard to say
     # |answer2correct=True}}
     out += "{{InfoboxShortie|question=" + q["question"]["str"]
-    for q_number in range(4):
+    for q_number in range(1, 5):
         q_number_str = numberarray[q_number]
-        out += f"|answer{q_number}={q["answers"][q_number_str]}"
+        out += f"|answer{q_number}={q["answers"][q_number_str]["str"]}"
         if q["answers"][q_number_str]["correct"]:
             out += f"|answer{q_number}correct=True"
             out += f"|answer{q_number}quote=(correct quote)"
         else:
-            out += f"|answer{q_number}quote=(incorrect quote)"
-    out += "}}"
+            if "wrongAudio" in q["answers"][q_number_str]:
+                out += f"|answer{q_number}quote=(incorrect quote)"
+    out += "}}\n\n"
     return out
 
 def parseWendit(question):
@@ -87,7 +88,7 @@ for q in main["questions"]:
     if question["type"] == "shortie":
         output.write(parseShortie(question))
 
-    elif question["type"] == "shortie":
+    """elif question["type"] == "shortie":
         output.write(parseWendit(question))
 
     elif question["type"] == "typie":
@@ -103,4 +104,4 @@ for q in main["questions"]:
         output.write(parseGibberish(question))
 
     elif question["type"] == "dod":
-        output.write(parseDisordat(question))
+        output.write(parseDisordat(question))"""
