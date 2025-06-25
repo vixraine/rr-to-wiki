@@ -2,26 +2,52 @@
 
 import urllib.request
 import json
-from enum import Enum
 
-class QuestionNumber(Enum):
-    one = 1
-    two = 2
-    three = 3
-    four = 4
+numberarray = ["one", "two", "three", "four"]
 
 def parseShortie(q):
     out = f"==={q["category"]["str"]}===\n"
     # {{InfoboxShortie
-    # |question=What should the show "The Wire" rename itself to if it wanted to seem even more down-to-earth?
+    # |question=What should the show "The Wire"...
     # |answer1=The Red Wire
     # |answer2=The Green Wire
     # |answer3=The Black Wire
     # |answer4=Hard to say
     # |answer2correct=True}}
     out += "{{InfoboxShortie|question=" + q["question"]["str"]
-    out += "{{InfoboxShortie|answer1=" + q["answers"]["one"]
+    for q_number in range(4):
+        q_number_str = numberarray[q_number]
+        out += f"|answer{q_number}={q["answers"][q_number_str]}"
+        if q["answers"][q_number_str]["correct"]:
+            out += f"|answer{q_number}correct=True"
+            out += f"|answer{q_number}quote=(correct quote)"
+        else:
+            out += f"|answer{q_number}quote=(incorrect quote)"
+    out += "}}"
+    return out
 
+def parseWendit(question):
+    # WIP
+    pass
+
+def parseTypie(question):
+    # WIP
+    pass
+
+def parseBingo(question):
+    # WIP
+    pass
+
+def parseRoadkill(question):
+    # WIP
+    pass
+
+def parseGibberish(question):
+    # WIP
+    pass
+
+def parseDisordat(question):
+    pass
 
 
 episode = int(input("Enter episode NUMBER. "))
@@ -47,8 +73,8 @@ dilemma_output += "|a2r2=" + dilemma["answers"][1]["response"][1] + "|a2r3=" + d
 output.write(f"==Moral Dilemma==\n{dilemma_output}\n\n==Sponsor==\nRequires manual transcription.\n\n")
 output.write(f"==Host sign-in==\n\n1. {dilemma["answers"][0]["answer"]}\n\nRequires manual transcription.\n\n")
 output.write(f"2. {dilemma["answers"][1]["answer"]}\n\nRequires manual transcription.\n\n")
-output.write(f"==Floor introduction==\nRequires manual transcription.\n")
-output.write(f"\n==Questions==\n")
+output.write("==Floor introduction==\nRequires manual transcription.\n")
+output.write("\n==Questions==\n")
 
 for q in main["questions"]:
 
