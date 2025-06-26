@@ -5,7 +5,7 @@ import json
 
 numberarray = ["", "one", "two", "three", "four"]
 
-def parseShortie(q):
+def parse_shortie(q):
     out = f"==={q["category"]["str"]}===\n\n"
     # {{InfoboxShortie
     # |question=What should the show "The Wire"...
@@ -14,6 +14,8 @@ def parseShortie(q):
     # |answer3=The Black Wire
     # |answer4=Hard to say
     # |answer2correct=True}}
+    if "intro" in q:
+        out += "Has question intro (transcribe).\n\n"
     out += "{{InfoboxShortie|question=" + q["question"]["str"]
     for q_number in range(1, 5):
         q_number_str = numberarray[q_number]
@@ -27,28 +29,33 @@ def parseShortie(q):
     out += "}}\n\n"
     return out
 
-def parseWendit(question):
-    # WIP
-    pass
+def parse_wendit(q):
+    out = "===Wendithap'n===\n\nRequires manual transcription.\n\n"
+    return out
 
-def parseTypie(question):
-    # WIP
-    pass
+def parse_typie(q):
+    out = f"==={q["category"]["str"]}===\n\nFill in the blank - requires manual transcription.\n\n"
+    return out
 
-def parseBingo(question):
-    # WIP
-    pass
+def parse_bingo(q):
+    out = "===Bingo===\n\nRequires manual transcription.\n\n"
+    return out
 
-def parseRoadkill(question):
-    # WIP
-    pass
+def parse_roadkill(q):
+    out = "===Roadkill===\n\nRequires manual transcription.\n\n"
+    return out
 
-def parseGibberish(question):
-    # WIP
-    pass
+def parse_gibberish(q):
+    out = "===Gibberish===\n\nRequires manual transcription.\n\n"
+    return out
 
-def parseDisordat(question):
-    pass
+def parse_disordat(q):
+    out = "===DISorDAT===\n\nRequires manual transcription.\n\n"
+    return out
+
+def parse_jattack(q):
+    out = "===Jack Attack===\n\nRequires manual transcription."
+    return out
 
 
 episode = int(input("Enter episode NUMBER. "))
@@ -86,22 +93,25 @@ for q in main["questions"]:
     question = json.load(urllib.request.urlopen(q_req))
 
     if question["type"] == "shortie":
-        output.write(parseShortie(question))
+        output.write(parse_shortie(question))
 
-    """elif question["type"] == "shortie":
-        output.write(parseWendit(question))
+    elif question["type"] == "shortie":
+        output.write(parse_wendit(question))
 
     elif question["type"] == "typie":
-        output.write(parseTypie(question))
+        output.write(parse_typie(question))
 
     elif question["type"] == "bingo":
-        output.write(parseBingo(question))
+        output.write(parse_bingo(question))
 
     elif question["type"] == "roadkill":
-        output.write(parseRoadkill(question))
+        output.write(parse_roadkill(question))
 
     elif question["type"] == "gibber":
-        output.write(parseGibberish(question))
+        output.write(parse_gibberish(question))
 
     elif question["type"] == "dod":
-        output.write(parseDisordat(question))"""
+        output.write(parse_disordat(question))
+
+    elif question["type"] == "ja":
+        output.write(parse_jattack(question))
